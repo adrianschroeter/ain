@@ -27,8 +27,6 @@
 #include <set>
 #include <stdint.h>
 
-#include <boost/optional.hpp>
-
 class CBlockIndex;
 class CTransaction;
 

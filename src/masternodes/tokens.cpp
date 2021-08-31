@@ -41,7 +41,7 @@ std::unique_ptr<CToken> CTokensView::GetToken(DCT_ID id) const
     return {};
 }
 
-boost::optional<std::pair<DCT_ID, std::unique_ptr<CToken> > > CTokensView::GetToken(const std::string & symbolKey) const
+std::optional<std::pair<DCT_ID, std::unique_ptr<CToken> > > CTokensView::GetToken(const std::string & symbolKey) const
 {
     DCT_ID id;
     if (ReadBy<Symbol, std::string>(symbolKey, id)) {
@@ -50,7 +50,7 @@ boost::optional<std::pair<DCT_ID, std::unique_ptr<CToken> > > CTokensView::GetTo
     return {};
 }
 
-boost::optional<std::pair<DCT_ID, CTokensView::CTokenImpl> > CTokensView::GetTokenByCreationTx(const uint256 & txid) const
+std::optional<std::pair<DCT_ID, CTokensView::CTokenImpl> > CTokensView::GetTokenByCreationTx(const uint256 & txid) const
 {
     DCT_ID id;
     if (ReadBy<CreationTx, uint256>(txid, id)) {
@@ -293,7 +293,7 @@ DCT_ID CTokensView::DecrementLastDctId()
     return *lastDctId;
 }
 
-boost::optional<DCT_ID> CTokensView::ReadLastDctId() const
+std::optional<DCT_ID> CTokensView::ReadLastDctId() const
 {
     DCT_ID lastDctId{DCT_ID_START};
     if (Read(LastDctId::prefix, lastDctId)) {

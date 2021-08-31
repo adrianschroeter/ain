@@ -234,7 +234,7 @@ std::vector<CTxIn> GetInputs(UniValue const& inputs) {
     return vin;
 }
 
-boost::optional<CScript> AmIFounder(CWallet* const pwallet) {
+std::optional<CScript> AmIFounder(CWallet* const pwallet) {
     for(auto const & script : Params().GetConsensus().foundationMembers) {
         if(IsMineCached(*pwallet, script) == ISMINE_SPENDABLE)
             return { script };
@@ -242,7 +242,7 @@ boost::optional<CScript> AmIFounder(CWallet* const pwallet) {
     return {};
 }
 
-static boost::optional<CTxIn> GetAuthInputOnly(CWallet* const pwallet, CTxDestination const& auth) {
+static std::optional<CTxIn> GetAuthInputOnly(CWallet* const pwallet, CTxDestination const& auth) {
 
     std::vector<COutput> vecOutputs;
     CCoinControl cctl;
@@ -309,7 +309,7 @@ CTransactionRef CreateAuthTx(CWallet* const pwallet, std::set<CScript> const & a
     return fund(mtx, pwallet, {}, &coinControl), sign(mtx, pwallet, {});
 }
 
-static boost::optional<CTxIn> GetAnyFoundationAuthInput(CWallet* const pwallet) {
+static std::optional<CTxIn> GetAnyFoundationAuthInput(CWallet* const pwallet) {
     for (auto const & founderScript : Params().GetConsensus().foundationMembers) {
         if (IsMineCached(*pwallet, founderScript) == ISMINE_SPENDABLE) {
             CTxDestination destination;
@@ -342,7 +342,7 @@ std::vector<CTxIn> GetAuthInputsSmart(CWallet* const pwallet, int32_t txVersion,
         }
         auto authInput = GetAuthInputOnly(pwallet, destination);
         if (authInput) {
-            result.push_back(authInput.get());
+            result.push_back(authInput.value());
         }
         else {
             notFoundYet.insert(auth);
@@ -357,13 +357,13 @@ std::vector<CTxIn> GetAuthInputsSmart(CWallet* const pwallet, int32_t txVersion,
                 throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Need foundation member authorization");
             }
         } else {
-            auths.insert(anyFounder.get());
+            auths.insert(anyFounder.value());
             auto authInput = GetAnyFoundationAuthInput(pwallet);
             if (authInput) {
-                result.push_back(authInput.get());
+                result.push_back(authInput.value());
             }
             else {
-                notFoundYet.insert(anyFounder.get());
+                notFoundYet.insert(anyFounder.value());
             }
         }
     }

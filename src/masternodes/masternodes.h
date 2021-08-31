@@ -168,16 +168,16 @@ class CMasternodesView : public virtual CStorageView
 public:
 //    CMasternodesView() = default;
 
-    boost::optional<CMasternode> GetMasternode(uint256 const & id) const;
-    boost::optional<uint256> GetMasternodeIdByOperator(CKeyID const & id) const;
-    boost::optional<uint256> GetMasternodeIdByOwner(CKeyID const & id) const;
+    std::optional<CMasternode> GetMasternode(uint256 const & id) const;
+    std::optional<uint256> GetMasternodeIdByOperator(CKeyID const & id) const;
+    std::optional<uint256> GetMasternodeIdByOwner(CKeyID const & id) const;
     void ForEachMasternode(std::function<bool(uint256 const &, CLazySerialize<CMasternode>)> callback, uint256 const & start = uint256());
 
     void IncrementMintedBy(CKeyID const & minter);
     void DecrementMintedBy(CKeyID const & minter);
 
-    boost::optional<std::pair<CKeyID, uint256>> AmIOperator() const;
-    boost::optional<std::pair<CKeyID, uint256>> AmIOwner() const;
+    std::optional<std::pair<CKeyID, uint256>> AmIOperator() const;
+    std::optional<std::pair<CKeyID, uint256>> AmIOwner() const;
 
     // Multiple operator support
     std::set<std::pair<CKeyID, uint256>> GetOperatorsMulti() const;
@@ -192,7 +192,7 @@ public:
 
     // Non-subnode block times
     void SetMasternodeLastBlockTime(const CKeyID & minter, const uint32_t &blockHeight, const int64_t &time);
-    boost::optional<int64_t> GetMasternodeLastBlockTime(const CKeyID & minter, const uint32_t height);
+    std::optional<int64_t> GetMasternodeLastBlockTime(const CKeyID & minter, const uint32_t height);
     void EraseMasternodeLastBlockTime(const uint256 &minter, const uint32_t& blockHeight);
     void ForEachMinterNode(std::function<bool(MNBlockTimeKey const &, CLazySerialize<int64_t>)> callback, MNBlockTimeKey const & start = {});
 
@@ -240,8 +240,8 @@ public:
     void SetAnchorTeams(CTeam const & authTeam, CTeam const & confirmTeam, const int height);
 
     CTeam GetCurrentTeam() const;
-    boost::optional<CTeam> GetAuthTeam(int height) const;
-    boost::optional<CTeam> GetConfirmTeam(int height) const;
+    std::optional<CTeam> GetAuthTeam(int height) const;
+    std::optional<CTeam> GetConfirmTeam(int height) const;
 
     struct AuthTeam { static const unsigned char prefix; };
     struct ConfirmTeam { static const unsigned char prefix; };
@@ -253,7 +253,7 @@ public:
     using RewardTxHash = uint256;
     using AnchorTxHash = uint256;
 
-    boost::optional<RewardTxHash> GetRewardForAnchor(AnchorTxHash const &btcTxHash) const;
+    std::optional<RewardTxHash> GetRewardForAnchor(AnchorTxHash const &btcTxHash) const;
 
     void AddRewardForAnchor(AnchorTxHash const &btcTxHash, RewardTxHash const & rewardTxHash);
     void RemoveRewardForAnchor(AnchorTxHash const &btcTxHash);

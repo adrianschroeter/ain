@@ -72,7 +72,7 @@ std::unique_ptr<CICXOrderView::CICXOrderImpl> CICXOrderView::GetICXOrderByCreati
 {
     auto order = ReadBy<ICXOrderCreationTx,CICXOrderImpl>(txid);
     if (order)
-        return MakeUnique<CICXOrderImpl>(*order);
+        return std::make_unique<CICXOrderImpl>(*order);
     return {};
 }
 
@@ -164,7 +164,7 @@ std::unique_ptr<CICXOrderView::CICXMakeOfferImpl> CICXOrderView::GetICXMakeOffer
 {
     auto makeoffer = ReadBy<ICXMakeOfferCreationTx,CICXMakeOfferImpl>(txid);
     if (makeoffer)
-        return MakeUnique<CICXMakeOfferImpl>(*makeoffer);
+        return std::make_unique<CICXMakeOfferImpl>(*makeoffer);
     return {};
 }
 
@@ -240,7 +240,7 @@ std::unique_ptr<CICXOrderView::CICXSubmitDFCHTLCImpl> CICXOrderView::GetICXSubmi
 {
     auto submitdfchtlc = ReadBy<ICXSubmitDFCHTLCCreationTx,CICXSubmitDFCHTLCImpl>(txid);
     if (submitdfchtlc)
-        return MakeUnique<CICXSubmitDFCHTLCImpl>(*submitdfchtlc);
+        return std::make_unique<CICXSubmitDFCHTLCImpl>(*submitdfchtlc);
     return {};
 }
 
@@ -318,7 +318,7 @@ std::unique_ptr<CICXOrderView::CICXSubmitEXTHTLCImpl> CICXOrderView::GetICXSubmi
 {
     auto submitexthtlc = ReadBy<ICXSubmitEXTHTLCCreationTx,CICXSubmitEXTHTLCImpl>(txid);
     if (submitexthtlc)
-        return MakeUnique<CICXSubmitEXTHTLCImpl>(*submitexthtlc);
+        return std::make_unique<CICXSubmitEXTHTLCImpl>(*submitexthtlc);
     return {};
 }
 
@@ -396,7 +396,7 @@ std::unique_ptr<CICXOrderView::CICXClaimDFCHTLCImpl> CICXOrderView::GetICXClaimD
 {
     auto claimdfchtlc = ReadBy<ICXClaimDFCHTLCCreationTx,CICXClaimDFCHTLCImpl>(txid);
     if (claimdfchtlc)
-        return MakeUnique<CICXClaimDFCHTLCImpl>(*claimdfchtlc);
+        return std::make_unique<CICXClaimDFCHTLCImpl>(*claimdfchtlc);
     return {};
 }
 
@@ -424,7 +424,7 @@ std::unique_ptr<CICXOrderView::CICXCloseOrderImpl> CICXOrderView::GetICXCloseOrd
 {
     auto closeorderImpl = ReadBy<ICXCloseOrderCreationTx, CICXCloseOrderImpl>(txid);
     if (closeorderImpl)
-        return MakeUnique<CICXCloseOrderImpl>(*closeorderImpl);
+        return std::make_unique<CICXCloseOrderImpl>(*closeorderImpl);
     return {};
 }
 
@@ -443,7 +443,7 @@ std::unique_ptr<CICXOrderView::CICXCloseOfferImpl> CICXOrderView::GetICXCloseOff
 {
     auto closeofferImpl = ReadBy<ICXCloseOfferCreationTx, CICXCloseOfferImpl>(txid);
     if (closeofferImpl)
-        return MakeUnique<CICXCloseOfferImpl>(*closeofferImpl);
+        return std::make_unique<CICXCloseOfferImpl>(*closeofferImpl);
     return {};
 }
 

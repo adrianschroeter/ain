@@ -35,7 +35,7 @@ std::string trim_ws(std::string const & str)
 std::unique_ptr<CToken> CTokensView::GetToken(DCT_ID id) const
 {
     if (auto tokenImpl = ReadBy<ID, CTokenImpl>(id)) {
-        return MakeUnique<CTokenImpl>(*tokenImpl);
+        return std::make_unique<CTokenImpl>(*tokenImpl);
     }
 
     return {};
@@ -77,7 +77,7 @@ std::unique_ptr<CToken> CTokensView::GetTokenGuessId(const std::string & str, DC
         auto pair = GetTokenByCreationTx(tx);
         if (pair) {
             id = pair->first;
-            return MakeUnique<CTokenImpl>(pair->second);
+            return std::make_unique<CTokenImpl>(pair->second);
         }
     } else {
         auto pair = GetToken(key);

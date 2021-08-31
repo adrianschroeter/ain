@@ -1055,7 +1055,7 @@ UniValue listaccounthistory(const JSONRPCRequest& request) {
 
         std::unique_ptr<CScopeTxReverter> reverter;
         if (!noRewards) {
-            reverter = MakeUnique<CScopeTxReverter>(view, valueLazy.get().txid, key.blockHeight);
+            reverter = std::make_unique<CScopeTxReverter>(view, valueLazy.get().txid, key.blockHeight);
         }
 
         if (shouldSkipBlock(key.blockHeight)) {
@@ -1416,7 +1416,7 @@ UniValue accounthistorycount(const JSONRPCRequest& request) {
 
         std::unique_ptr<CScopeTxReverter> reverter;
         if (!noRewards) {
-            reverter = MakeUnique<CScopeTxReverter>(view, value.txid, key.blockHeight);
+            reverter = std::make_unique<CScopeTxReverter>(view, value.txid, key.blockHeight);
         }
 
         if (CustomTxType::None != txType && value.category != uint8_t(txType)) {

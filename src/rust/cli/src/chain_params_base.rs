@@ -1,9 +1,12 @@
+use std::str::FromStr;
+
 #[derive(Debug)]
 pub struct ChainParams {
     pub rpc_port: u16,
     pub base_dir: &'static str,
 }
 
+#[derive(Debug)]
 pub enum Chain {
     Main,
     Testnet,
@@ -30,6 +33,19 @@ impl Chain {
                 rpc_port: 19554,
                 base_dir: "regtest",
             },
+        }
+    }
+}
+
+impl FromStr for Chain {
+    type Err = &'static str;
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "regtest" => Ok(Chain::Regtest),
+            "testnet" => Ok(Chain::Testnet),
+            "devnet" => Ok(Chain::Devnet),
+            "mainnet" => Ok(Chain::Main),
+            _ => Err("Unsupported chain"),
         }
     }
 }

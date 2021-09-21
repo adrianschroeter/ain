@@ -82,11 +82,11 @@ build_prepare() {
     echo "> build: ${target}"
     pushd ./depends >/dev/null
     # XREF: #depends-make
-    make NO_QT=1 ${extra_make_depends_args}
+    make ${extra_make_depends_args}
     popd >/dev/null
     ./autogen.sh
     # XREF: #make-configure
-    ./configure CC=clang-11 CXX=clang++-11 --prefix="$(pwd)/depends/${target}" ${extra_conf_opts}
+    ./configure --prefix="$(pwd)/depends/${target}" ${extra_conf_opts}
 }
 
 build() {
@@ -334,9 +334,6 @@ pkg_install_deps() {
         libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev \
         libminiupnpc-dev libzmq3-dev libqrencode-dev wget \
         curl cmake
-    wget https://apt.llvm.org/llvm.sh
-    chmod +x llvm.sh
-    sudo ./llvm.sh 11
 }
 
 pkg_ensure_mac_sdk() {

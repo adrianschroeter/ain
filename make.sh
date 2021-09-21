@@ -328,8 +328,8 @@ git_version() {
 }
 
 pkg_install_deps() {
-    sudo apt update && sudo apt dist-upgrade -y
-    sudo apt install -y software-properties-common build-essential libtool autotools-dev automake \
+    apt update && apt dist-upgrade -y
+    apt install -y software-properties-common build-essential libtool autotools-dev automake \
         pkg-config bsdmainutils python3 libssl-dev libevent-dev libboost-system-dev \
         libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev \
         libminiupnpc-dev libzmq3-dev libqrencode-dev wget \

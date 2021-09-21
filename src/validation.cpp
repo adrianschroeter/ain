@@ -3092,6 +3092,39 @@ void CChainState::ProcessLoanEvents(const CBlockIndex* pindex, CCustomCSView& ca
         cache.TransferVaultInterest(auction.vaultId, pindex->nHeight, vault->schemeId, {});
         return true;
     }, {CVaultId{}, static_cast<uint32_t>(pindex->nHeight)});
+
+    auto priceHeight = pindex->nHeight + Params().GetConsensus().blocksPriceUpdate();
+    cache.ForEachLoanSetCollateralToken([&](CollateralTokenKey const & key, uint256 const & collTokenTx) {
+        auto collateralToken = cache.GetLoanSetCollateralToken(collTokenTx);
+        assert(collateralToken);
+        if( (pindex->nHeight - collateralToken->creationHeight) % priceHeight == 0)
+        {
+            auto aggPrice = GetAggregatePrice(cache, collateralToken->priceFeedId.first, collateralToken->priceFeedId.second, pindex->nHeight);
+            if(!aggPrice){
+                return true;
+            }
+            collateralToken->activePrice = collateralToken->nextPrice;
+            collateralToken->nextPrice = *aggPrice.val;
+            cache.LoanUpdateCollateralToken(*collateralToken);
+        }
+        return true;
+    });
+
+    cache.ForEachLoanSetLoanToken([&](DCT_ID const & key, CLoanView::CLoanSetLoanTokenImpl loanToken) {
+        if( (pindex->nHeight - loanToken.creationHeight) % priceHeight == 0)
+        {
+            auto updateLoanToken = loanToken;
+            auto aggPrice = GetAggregatePrice(cache, updateLoanToken.priceFeedId.first, updateLoanToken.priceFeedId.second, pindex->nHeight);
+            if(!aggPrice){
+                return true;
+            }
+            updateLoanToken.activePrice = loanToken.nextPrice;
+            updateLoanToken.nextPrice = aggPrice;
+            cache.LoanUpdateLoanToken(updateLoanToken, key);
+        }
+        return true;
+    });
+
 }
 
 bool CChainState::FlushStateToDisk(

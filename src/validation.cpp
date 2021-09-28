@@ -3092,9 +3092,6 @@ void CChainState::ProcessLoanEvents(const CBlockIndex* pindex, CCustomCSView& ca
         return true;
     }, {CVaultId{}, static_cast<uint32_t>(pindex->nHeight)});
 
-    // flush all changes
-    view.Flush();
-    pburnHistoryDB->Flush();
     auto priceHeight = pindex->nHeight + Params().GetConsensus().blocksPriceUpdate();
     cache.ForEachLoanSetCollateralToken([&](CollateralTokenKey const & key, uint256 const & collTokenTx) {
         auto collateralToken = cache.GetLoanSetCollateralToken(collTokenTx);

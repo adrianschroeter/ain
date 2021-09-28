@@ -3092,7 +3092,7 @@ void CChainState::ProcessLoanEvents(const CBlockIndex* pindex, CCustomCSView& ca
         return true;
     }, {CVaultId{}, static_cast<uint32_t>(pindex->nHeight)});
 
-    auto priceHeight = pindex->nHeight + Params().GetConsensus().blocksPriceUpdate();
+    auto priceHeight = Params().GetConsensus().blocksPriceUpdate();
     cache.ForEachLoanSetCollateralToken([&](CollateralTokenKey const & key, uint256 const & collTokenTx) {
         auto collateralToken = cache.GetLoanSetCollateralToken(collTokenTx);
         assert(collateralToken);
@@ -3114,6 +3114,7 @@ void CChainState::ProcessLoanEvents(const CBlockIndex* pindex, CCustomCSView& ca
 
             auto priceFeed = cache.GetPriceFeedData(loanToken.priceFeedId);
             assert(priceFeed);
+            priceFeed.val->timestamp = GetSystemTimeInSeconds();
             priceFeed.val->activePrice = priceFeed.val->nextPrice;
             priceFeed.val->nextPrice = GetAggregatePrice(cache, loanToken.priceFeedId.first, loanToken.priceFeedId.second, pindex->nTime);
             cache.UpdatePriceFeed(loanToken.priceFeedId, priceFeed);

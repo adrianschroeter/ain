@@ -159,7 +159,7 @@ BASE_SCRIPTS = [
     'feature_icx_orderbook_errors.py',
     'feature_loan_setcollateraltoken.py',
     'feature_loan_setloantoken.py',
-    'feature_loan_takeloan.py',
+    'feature_loan_basics.py',
     'feature_any_accounts_to_accounts.py',
     'feature_sendtokenstoaddress.py',
     'feature_poolswap.py',

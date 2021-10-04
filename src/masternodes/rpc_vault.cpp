@@ -76,7 +76,7 @@ bool IsVaultPriceValid(CCustomCSView& mnview, const CVaultId& vaultId, uint32_t 
             for(const auto collateral: collaterals->balances){
                 auto collateralToken = mnview.HasLoanSetCollateralToken({collateral.first, height});
                 if(auto fixedIntervalPrice = mnview.GetFixedIntervalPrice(collateralToken->fixedIntervalPriceId)){
-                    if (!fixedIntervalPrice.val->valid)
+                    if (!fixedIntervalPrice.val->isValid())
                         return false;
                 }
             }
@@ -85,7 +85,7 @@ bool IsVaultPriceValid(CCustomCSView& mnview, const CVaultId& vaultId, uint32_t 
             for(const auto loan: loans->balances){
                 auto loanToken = mnview.GetLoanSetLoanTokenByID(loan.first);
                 if(auto fixedIntervalPrice = mnview.GetFixedIntervalPrice(loanToken->fixedIntervalPriceId)){
-                    if (!fixedIntervalPrice.val->valid)
+                    if (!fixedIntervalPrice.val->isValid())
                         return false;
                 }
 
